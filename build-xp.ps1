@@ -37,10 +37,17 @@ Write-Host "cl.exe : $((Get-Command cl.exe).Source)"
 Write-Host "ninja  : $((Get-Command ninja).Source)"
 Write-Host "cmake  : $CMake"
 
-& $CMake -S $PSScriptRoot -B $BuildDir -G Ninja -DCMAKE_BUILD_TYPE=Release -DXP_TARGET=ON
+& $CMake -S $PSScriptRoot -B $BuildDir -G Ninja `
+    -DCMAKE_BUILD_TYPE=Release `
+    -DXP_TARGET=ON `
+    -DCMAKE_CXX_FLAGS_RELEASE="/O1 /Os /GS- /sdl- /MT /GL /Gy" `
+    -DCMAKE_C_FLAGS_RELEASE="/O1 /Os /GS- /sdl- /MT /GL /Gy" `
+    -DCMAKE_EXE_LINKER_FLAGS_RELEASE="/OPT:REF /OPT:ICF /LTCG" `
+    -DCMAKE_SHARED_LINKER_FLAGS_RELEASE="/OPT:REF /OPT:ICF /LTCG"
+
 if ($LASTEXITCODE -ne 0) { throw "Configure failed" }
 
-& $CMake --build $BuildDir
+& $CMake --build $BuildDir --config Release
 if ($LASTEXITCODE -ne 0) { throw "Build failed" }
 
 Write-Host ""
