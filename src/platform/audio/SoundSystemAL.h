@@ -2,78 +2,47 @@
 #define SoundSystemAL_H__
 
 #include "SoundSystem.h"
+#include <windows.h>
+#include <mmsystem.h>
+#include <dsound.h>
 
-// If audio breaks for other platforms, this is probably why. Here, I'm just calling where Apple's OpenAL headers live (they arent in just "AL"
-#if defined(__APPLE__)
-    #include <OpenAL/al.h>
-    #include <OpenAL/alc.h>
-#else
-    #include <AL/al.h>
-    #include <AL/alc.h>
-#endif
-
-#include <vector>
-#include <list>
-
-//
-// NOTE: This class is only the core OpenAL part of the sound engine.
-//       Some audio setup code can still be managed from respective app
-//       setup code (e.g. the main app delegate for iOS).
-//
-
-class SoundSystemAL: public SoundSystem
+class SoundSystemAL : public SoundSystem
 {
-	//typedef std::list<SLObjectItf> SoundList;
 public:
     SoundSystemAL();
-	~SoundSystemAL();
+    virtual ~SoundSystemAL();
 
-	virtual void init();
-	virtual void destroy();
-
+    virtual bool isAvailable() { return _available; }
     virtual void enable(bool status);
     
     virtual void setListenerPos(float x, float y, float z);
-	virtual void setListenerAngle(float deg);
+    virtual void setListenerAngle(float deg);
 
     virtual void load(const std::string& name){}
     virtual void play(const std::string& name){}
     virtual void pause(const std::string& name){}
     virtual void stop(const std::string& name){}
-	virtual void playAt(const SoundDesc& sound, float x, float y, float z, float volume, float pitch);
+    virtual void playAt(const SoundDesc& sound, float x, float y, float z, float volume, float pitch);
 
 private:
-    class Buffer {
-    public:
-        Buffer()
-        :   inited(false)
-        {}
-        bool inited;
-        ALuint bufferID;
-        char* framePtr;
+    static const int MAX_PLAYED = 12;
+
+    struct BufferInfo {
+        LPDIRECTSOUNDBUFFER buffer;
+        bool inUse;
+        BufferInfo() : buffer(NULL), inUse(false) {}
     };
-    
-	void removeStoppedSounds();
 
-    static const int MaxNumSources = 12;
-
-	//SoundList playingBuffers;
-
-    Vec3 _listenerPos;
+    LPDIRECTSOUND8 _dsound;
+    BufferInfo _buffers[MAX_PLAYED];
+    int _playedCnt;
     float _rotation;
-    
-	bool available;
-    
-    ALCcontext* context;
-	ALCdevice* device;
-    
-    ALuint _sources[MaxNumSources];
-    std::vector<Buffer> _buffers;
+    bool _available;
 
-    bool getFreeSourceIndex(int* src);
-    bool getBufferId(const SoundDesc& sound, ALuint* buf);
-    
-public:
+    bool initDirectSound();
+    int getFreeSourceIndex();
+    void removeStoppedSounds();
+    bool createBuffer(const SoundDesc& sound, LPDIRECTSOUNDBUFFER* outBuffer);
 };
 
-#endif /*SoundSystemAL_H__ */
+#endif
