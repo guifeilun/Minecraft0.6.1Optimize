@@ -1,10 +1,10 @@
 # Minecraft PE 0.6.1 — XP / Win2K fork
 Based on JackTulli's build
 项目目标：
-1.实现无限世界
-2.全体概念UI
+1.实现无限世界                                                                                                                                                                     
+2.全体概念                                                                                                                                                                         
 3.directsound ✔
-4.删除usetouchscreen检测
+4.删除usetouchscreen检测                                                                                                                                                           
 5.添加设置页面滚动逻辑
 6.修复chunks闪退bug
 7.补全合成表
