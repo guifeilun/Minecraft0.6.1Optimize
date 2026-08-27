@@ -1,24 +1,24 @@
 # Minecraft PE 0.6.1 — XP / Win2K fork
 Based on JackTulli's build
 项目目标：
-实现无限世界
-全体概念UI
-directsound ✔
-删除usetouchscreen检测
-添加设置页面滚动逻辑
-修复chunks闪退bug
-补全合成表
-创造模式物品栏加入下界岩方块
-直接添加红石灯贴图
-windows缩放默认开启
-缩小文件体积 ✔
+1.实现无限世界
+2.全体概念UI
+3.directsound ✔
+4.删除usetouchscreen检测
+5.添加设置页面滚动逻辑
+6.修复chunks闪退bug
+7.补全合成表
+8.创造模式物品栏加入下界岩方块
+9.直接添加红石灯贴图
+10.windows缩放默认开启
+11.缩小文件体积 ✔
 JackTulli's changes
-Redstone ✔
-/time command ✔
-HUD ✔ 
-Save / load ✔
-删除了 Kolyah35 信用文本、GitHub 图标位图和可点击的 URL 处理程序。 StartMenuScreen 和 TouchStartMenuScreen ✔
-OpenGL上下文请求已从2.1降低到1.1 ✔
+1.Redstone ✔
+2./time command ✔
+3.HUD ✔ 
+4.Save / load ✔
+5.删除了 Kolyah35 信用文本、GitHub 图标位图和可点击的 URL 处理程序。 StartMenuScreen 和 TouchStartMenuScreen ✔
+6.OpenGL上下文请求已从2.1降低到1.1 ✔
 
 Building
 支持的构建是 Windows + Visual Studio 2017构建工具 与 v141_xp工具集。PowerShell脚本处理vcvars，选择正确的 Ninja，并将 二进制文件写入 build-xp\MinecraftPE.exe.
